@@ -2,7 +2,7 @@ import { mkdir, writeFile, copyFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const dist = join(import.meta.dirname, 'dist');
-const files = ['site.css', 'site.js', 'icon.svg'];
+const files = ['site.css', 'site.js', 'icon.svg', 'apple-touch-icon.png'];
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 for (const file of files) await copyFile(join(import.meta.dirname, file), join(dist, file));
@@ -23,7 +23,7 @@ function hero(mode, title) {
 
 for (const [path, mode, title] of routes) {
   const prefix = path ? '../' : './';
-  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#252e69"><meta name="description" content="Download public TikTok videos and stories."><title>${title}</title><link rel="icon" href="${prefix}icon.svg" type="image/svg+xml"><link rel="stylesheet" href="${prefix}site.css"><script defer src="${prefix}site.js"></script></head><body data-page="${mode}">${header(prefix, mode)}<main>${hero(mode, title)}</main></body></html>`;
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#252e69"><meta name="description" content="Download public TikTok videos and stories."><title>${title}</title><link rel="icon" href="${prefix}icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="${prefix}apple-touch-icon.png"><link rel="stylesheet" href="${prefix}site.css"><script defer src="${prefix}site.js"></script></head><body data-page="${mode}">${header(prefix, mode)}<main>${hero(mode, title)}</main></body></html>`;
   const folder = join(dist, path);
   await mkdir(folder, { recursive: true });
   await writeFile(join(folder, 'index.html'), html);
